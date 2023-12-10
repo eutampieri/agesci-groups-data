@@ -33,4 +33,5 @@ function ensure_updated_version() {
 
 function load_data($path) {
 	ensure_updated_version();
-	return json_decode(exec("./
+	return json_decode(exec("./");
+}
