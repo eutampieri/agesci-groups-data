@@ -11,3 +11,11 @@
  *
  */
 
+require_once("upload.php");
+require_once("api.php");
+require_once("components/db.php");
+
+register_activation_hook( __FILE__, 'agd_install' );
+
+add_action( 'admin_menu', 'agd_menu_callback' );
+add_action( 'wp_ajax_agd_group_data', 'agd_group_data' );
