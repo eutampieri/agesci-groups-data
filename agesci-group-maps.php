@@ -14,6 +14,7 @@
 require_once("components/upload.php");
 require_once("components/api.php");
 require_once("components/db.php");
+require_once("components/shortcode.php");
 
 register_activation_hook( __FILE__, 'agd_install' );
 
