@@ -22,7 +22,7 @@ function agd_group_data() {
             $wpdb->query("TRUNCATE ".$table_name);
             foreach(agd_load_data($uploaded_file) as $group) {
                 $address = $group[$_POST["street"]].", ".$group[$_POST["street_number"]];
-                $coords = agd_geocode($group[$_POST["street_number"]], $group[$_POST["street"]], $group[$_POST["city"]], $group[$_POST["zip"]], get_option('agd_mapbox_key'));
+                $coords = agd_geocode($group[$_POST["street_number"]], $group[$_POST["street"]], $group[$_POST["city"]], $group[$_POST["zip"]], $group[$_POST["province"]], get_option('agd_mapbox_key'));
                 $lat = $coords[1];
                 $lon = $coords[0];
 

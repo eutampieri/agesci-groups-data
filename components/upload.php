@@ -152,7 +152,7 @@ function agd_render_settings()
                     </tr>
                     <tr valign="top">
                         <th scope="row">Diocesi</th>
-                        <td><select name="diocesee"></select></td>
+                        <td><select name="diocese"></select></td>
                     </tr>
                 </table>
             </form>

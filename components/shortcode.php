@@ -11,7 +11,7 @@ function agd_shorttag_map( $atts ) {
             "popup" => "<h2>".$group->name."</h2>".
             "<p><strong>Indirizzo:</strong> ".$group->address . " " . $group->zip . " " . $group->city . "(" . $group->province . ")</p>".
             "<p><strong>Indirizzo mail:</strong> <a href=\"mailto:" . $group->email . "\">".$group->email."</a></p>".
-            "<p><strong>Codice fiscale:</strong> ".$group->vat_id."</a></p>".
+            "<p><strong>Codice fiscale:</strong> ".$group->vat_no."</a></p>".
             "<p><strong>Zona:</strong> ".$group->zone."</a></p>".
             "<p><strong>Parrocchia:</strong> ".$group->parish."</a></p>".
             "<p><strong>Diocesi:</strong> ".$group->diocese."</a></p>"
