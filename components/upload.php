@@ -9,33 +9,58 @@ function agd_render_settings()
     ?>
     <div>
     <script type="text/javascript">
-    function agd_get_headings() {
+    function agd_send_data() {
         var data = {
-			'action': 'agd_group_data',
-			'agd_additional_action': "get_headings",
-		};
+            'action': 'agd_group_data',
+            'agd_additional_action': "send_data",
+            'agd_file': document.getElementById("agd_b64").value,
+        };
+
+        for(const m of document.getElementById("mapping").getElementsByTagName("select")) {
+            data[m.name] = m.value;
+        }
         
         jQuery.post(ajaxurl, data, function(response) {
-            if(response.length == 26) {
-			    alert('Un invio è stato creato con ID ' + response + ". Riceverai una mail quando tutte le mail saranno spedite.");
-            } else {
-                alert("Si è verificato un errore: " + response);
-            }
-		});
+            alert(response);
+        });
     }
     function agd_load_headings() {
         var data = {
-			'action': 'agd_group_data',
-			'agd_additional_action': "get_headings",
-		};
+            'action': 'agd_group_data',
+            'agd_additional_action': "get_headings",
+            'agd_file': document.getElementById("agd_b64").value,
+        };
         
         jQuery.post(ajaxurl, data, function(response) {
-            if(response.length == 26) {
-			    alert('Un invio è stato creato con ID ' + response + ". Riceverai una mail quando tutte le mail saranno spedite.");
-            } else {
-                alert("Si è verificato un errore: " + response);
+            let headings = [];
+            for(const dd of response) {
+                let d = dd[0];
+                let human_readable = d.replace(/_/g, ' ');
+                human_readable = human_readable.charAt(0).toUpperCase() + human_readable.slice(1);
+                let element = document.createElement("option");
+                element.value = d;
+                element.innerText = `${human_readable} (${dd[1]})`;
+                headings.push(element);
             }
-		});
+            
+            for(const s of document.getElementById("mapping").getElementsByTagName("select")) {
+                for(const h of headings) {
+                    s.appendChild(h.cloneNode(true));
+                }
+            }
+        });
+    }
+
+    function agd_file_to_b64(i) {
+        let file = i.files[0];
+        let reader = new FileReader();
+        reader.onloadend = () => {
+            document.getElementById("agd_b64").value = reader.result
+                .replace('data:', '')
+                .replace(/^.+,/, '');
+            agd_load_headings();
+        }
+        reader.readAsDataURL(file);
     }
     </script>
         <h1>Importazione dati gruppo</h1>
@@ -62,11 +87,78 @@ function agd_render_settings()
                 <?php submit_button(); ?>
             </form>
         </section>
+        <section>
+            <form>
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">File da caricare</th>
+                        <td><input type="file" onchange="agd_file_to_b64(this)"></select></td>
+                    </tr>
+                </table>
+                <input id="agd_b64" type="hidden">
+            </form>
+        </section>
         <section id="agd_mapping">
+            <h2>Corrispondenza campi</h2>
+            <form id="mapping">
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Ordinale gruppo</th>
+                        <td><select name="id"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Nome gruppo</th>
+                        <td><select name="name"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Via gruppo</th>
+                        <td><select name="street"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Numero civico gruppo</th>
+                        <td><select name="street_number"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Città gruppo</th>
+                        <td><select name="city"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">CAP gruppo</th>
+                        <td><select name="zip"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Provincia gruppo</th>
+                        <td><select name="province"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Email gruppo</th>
+                        <td><select name="email"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">CF gruppo</th>
+                        <td><select name="vat_no"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Rappresentante legale</th>
+                        <td><select name="legal_representative"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Zona</th>
+                        <td><select name="zone"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Parrocchia</th>
+                        <td><select name="parish"></select></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Diocesi</th>
+                        <td><select name="diocesee"></select></td>
+                    </tr>
+                </table>
+            </form>
         </section>
         <?php if($mapbox_key_is_present) {?>
-        <p class="submit"><button id="agd_submit" onclick="agd_load_headings()" class="button button-primary">Carica</button></p>
+        <p class="submit"><button id="agd_submit" onclick="agd_send_data()" class="button button-primary">Carica</button></p>
         <?php }?>
-    </div>
     <?php
 }

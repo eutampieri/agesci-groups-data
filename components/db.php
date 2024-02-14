@@ -16,14 +16,15 @@ function agd_install() {
                 address TEXT NOT NULL,
                 latitude REAL,
                 longitude REAL,
-		city TEXT NOT NULL,
-		zip TEXT NOT NULL,
+                city TEXT NOT NULL,
+                zip TEXT NOT NULL,
                 province TEXT NOT NULL,
                 email TEXT NOT NULL,
                 vat_no INTEGER NOT NULL,
                 legal_representative TEXT NOT NULL,
+                zone TEXT
                 parish TEXT,
-                diocese TEXT
+                diocese TEXT,
         ) $charset_collate;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

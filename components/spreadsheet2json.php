@@ -75,5 +75,5 @@ function agd_ensure_updated_version() {
 
 function agd_load_data($path) {
 	agd_ensure_updated_version();
-	return json_decode(exec(agd_get_spreadsheet2json_path()." --filename ".$path));
+	return json_decode(exec(agd_get_spreadsheet2json_path()." --filename ".$path), true);
 }
