@@ -5,7 +5,7 @@ function agd_menu_callback()
 }
 function agd_render_settings()
 {
-    $mapbox_key_is_present = false;
+    $mapbox_key_is_present = get_option('agd_mapbox_key') != "";
     ?>
     <div>
     <script type="text/javascript">
@@ -23,7 +23,7 @@ function agd_render_settings()
             }
 		});
     }
-    function agd_submit() {
+    function agd_load_headings() {
         var data = {
 			'action': 'agd_group_data',
 			'agd_additional_action': "get_headings",
@@ -56,14 +56,16 @@ function agd_render_settings()
                 <table class="form-table">
                     <tr valign="top">
                         <th scope="row">Chiave API MapBox:</th>
-                        <td><input type="text" name="agd_mapbox_key" value="<?php echo esc_attr(get_option('agd_mapbox_key')); ?>" /></td>
+                        <td><input type="password" name="agd_mapbox_key" value="<?php echo esc_attr(get_option('agd_mapbox_key')); ?>" /></td>
                     </tr>
                 </table>
                 <?php submit_button(); ?>
             </form>
         </section>
+        <section id="agd_mapping">
+        </section>
         <?php if($mapbox_key_is_present) {?>
-        <p class="submit"><button onclick="agd_submit()" class="button button-primary">Invia newsletter</button></p>
+        <p class="submit"><button id="agd_submit" onclick="agd_load_headings()" class="button button-primary">Carica</button></p>
         <?php }?>
     </div>
     <?php
