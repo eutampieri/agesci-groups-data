@@ -50,6 +50,17 @@ function agd_render_settings()
                 <p>Mapbox è correttamente configurato. Se lo si vuole, è possibile cambiare il token qui sotto.</p>
             </div>
             <?php } ?>
+                <form method="post" action="options.php">
+                <?php settings_fields('agd_mapbox_key_group'); ?>
+                <?php do_settings_sections('agd_mapbox_key_group'); ?>
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Chiave API MapBox:</th>
+                        <td><input type="text" name="agd_mapbox_key" value="<?php echo esc_attr(get_option('agd_mapbox_key')); ?>" /></td>
+                    </tr>
+                </table>
+                <?php submit_button(); ?>
+            </form>
         </section>
         <?php if($mapbox_key_is_present) {?>
         <p class="submit"><button onclick="agd_submit()" class="button button-primary">Invia newsletter</button></p>
