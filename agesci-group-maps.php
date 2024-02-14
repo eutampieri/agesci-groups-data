@@ -13,7 +13,7 @@
 
 require_once("upload.php");
 require_once("api.php");
-require_once("components/db.php");
+require_once("db.php");
 
 register_activation_hook( __FILE__, 'agd_install' );
 
