@@ -1,7 +1,7 @@
 <?php
 function agd_menu_callback()
 {
-    add_menu_page('Importazione dati gruppo', 'Importazione dati gruppo', 'edit_posts', 'agd-menu-slug', 'agd_render_settings', 'dashicons-database-add');
+    add_menu_page('Importazione dati gruppo', 'Importazione dati gruppo', 'edit_posts', 'agd-import-menu', 'agd_render_settings', 'dashicons-database-add');
 }
 function agd_render_settings()
 {
