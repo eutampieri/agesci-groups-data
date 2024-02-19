@@ -5,6 +5,19 @@ function agd_shorttag_map( $atts ) {
 
     $points = [];
     $result = $wpdb->get_results("SELECT * FROM ".$table_name);
+	$zones = $wpdb->get_results("SELECT DISTINCT zone FROM ".$table_name." ORDER BY longitude*latitude;");
+	$palette = [];
+	$delta = 360.0 / count($zones);
+	foreach($zones as $i => $z) {
+		$hue = $i * $delta;
+		$rk = fmod(5 + $hue/60, 6);
+		$gk = fmod(3 + $hue/60, 6);
+		$bk = fmod(1 + $hue/60, 6);
+		$r = (1 - max(0, min($rk, 4 - $rk, 1)))*255;
+		$g = (1 - max(0, min($gk, 4 - $gk, 1)))*255;
+		$b = (1 - max(0, min($bk, 4 - $bk, 1)))*255;
+		$palette[$z->zone] = "#".str_pad(dechex($r), 2, "0", STR_PAD_LEFT).str_pad(dechex($g), 2, "0", STR_PAD_LEFT).str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
+	}
     foreach($result as $group) {
         array_push($points, [
             "coords" => [$group->longitude, $group->latitude],
@@ -14,7 +27,8 @@ function agd_shorttag_map( $atts ) {
             "<p><strong>Codice fiscale:</strong> ".$group->vat_no."</a></p>".
             "<p><strong>Zona:</strong> ".$group->zone."</a></p>".
             "<p><strong>Parrocchia:</strong> ".$group->parish."</a></p>".
-            "<p><strong>Diocesi:</strong> ".$group->diocese."</a></p>"
+            "<p><strong>Diocesi:</strong> ".$group->diocese."</a></p>",
+			"colour" => $palette[$group->zone]
         ]);
     }
 
